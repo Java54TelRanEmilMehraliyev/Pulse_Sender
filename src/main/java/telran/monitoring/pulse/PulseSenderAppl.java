@@ -50,6 +50,13 @@ public class PulseSenderAppl {
 	private static int getRandomPulseValue(long patientId) {
 		int previousValue = previousPulseValues.getOrDefault(patientId, generateInitialPulse(patientId));
 
+		if (random.nextInt(100) < MAX_ERROR_PULSE_PROB * 100) {
+			return MAX_PULSE_VALUE + 10;
+		}
+		if (random.nextInt(100) < MIN_ERROR_PULSE_PROB * 100) {
+			return MIN_PULSE_VALUE - 10;
+		}
+
 		if (random.nextInt(100) < JUMP_PROBABILITY) {
 			int newValue = calculateNewPulseValue(previousValue);
 			previousPulseValues.put(patientId, newValue);
